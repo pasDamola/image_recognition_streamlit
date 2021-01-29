@@ -5,27 +5,22 @@ from PIL import Image, ImageOps, ImageChops
 from io import BytesIO
 
 
-def data_uri_to_image(uri):
-    encoded_data = uri.split(',')[1]
-    image = base64.b64decode(encoded_data)
-    return Image.open(BytesIO(image))
-
-
 def replace_transparent_background(image):
-    image_arr = np.array(image)
-
-    has_no_alpha = len(image_arr.shape) < 3 or image_arr.shape[2] < 4
+    # image_arr = np.array(image)
+    has_no_alpha = len(image.shape) < 3 or image.shape[2] < 4
     if has_no_alpha:
         return image
 
     alpha1 = 0
     r2, g2, b2, alpha2 = 255, 255, 255, 255
 
-    red, green, blue, alpha = image_arr[:, :, 0], image_arr[:, :, 1], image_arr[:, :, 2], image_arr[:, :, 3]
+    red, green, blue, alpha = image[:, :, 0], image[:, :, 1], image[:, :, 2], image[:, :, 3]
     mask = (alpha == alpha1)
-    image_arr[:, :, :4][mask] = [r2, g2, b2, alpha2]
+    image[:, :, :4][mask] = [r2, g2, b2, alpha2]
 
-    return Image.fromarray(image_arr)
+    print(image[:, :, :3])
+
+    return Image.fromarray(image.astype(np.uint8))
 
 
 def trim_borders(image):
@@ -61,13 +56,13 @@ def to_grayscale(image):
 
 
 def process_image(data_uri):
-    image = data_uri_to_image(data_uri)
+    image = replace_transparent_background(data_uri)
 
     is_empty = not image.getbbox()
     if is_empty:
         return None
 
-    image = replace_transparent_background(image)
+    # image = replace_transparent_background(image)
     image = trim_borders(image)
     image = pad_image(image)
     image = to_grayscale(image)

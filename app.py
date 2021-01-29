@@ -5,6 +5,7 @@ from streamlit_drawable_canvas import st_canvas
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.datasets import load_digits
+from image_recognition import process_image
 
 # Specify canvas parameters in application
 stroke_width = st.sidebar.slider("Stroke width: ", 1, 25, 3)
@@ -25,21 +26,32 @@ canvas_result = st_canvas(
     key="canvas",
 )
 
-# Train model with necessary image data
+
+# Method to train model with necessary image data
 def train_model(data, target):
-    model = KNeighborsClassifier(n_neighbors=3)
+    model = KNeighborsClassifier(n_neighbors=1)
     model.fit(data, target)
     return model
 
 # Load MNIST digit dataset
 digits = load_digits()
 
-
+# Train the model
 classifier = train_model(digits.data, digits.target)
+
+# Process the input image
+x = process_image(canvas_result.image_data)
+
+# x = x.reshape((-1,2))
+
+if x is not None:
+    prediction = classifier.predict(x)[0]
+
+
 
 # Let the model predict the number drawn on the canvas
 if st.button('Predict'):
-    st.write('You predicted!!!')
+    st.write('You predicted {}'.format(prediction))
 
 # Do something interesting with the image data and paths
 if canvas_result.image_data is not None:
