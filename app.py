@@ -22,6 +22,8 @@ canvas_result = st_canvas(
     key="canvas",
 )
 
+st.button('Predict')
+
 # Do something interesting with the image data and paths
 # if canvas_result.image_data is not None:
 #     st.image(canvas_result.image_data)
