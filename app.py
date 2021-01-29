@@ -13,6 +13,7 @@ bg_color = st.sidebar.color_picker("Background color hex: ", "#eee")
 drawing_mode = st.sidebar.selectbox('Drawing Tool', ['freedraw'])
 realtime_update = st.sidebar.checkbox("Update in realtime", True)
 
+st.write("Draw a number between 0 and 9")
 # Create a canvas component
 canvas_result = st_canvas(
     fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
@@ -53,5 +54,5 @@ if st.button('Predict'):
     st.write('You predicted {}'.format(prediction))
 
 # Do something interesting with the image data and paths
-if canvas_result.image_data is not None:
-    st.image(canvas_result.image_data)
+# if canvas_result.image_data is not None:
+#     st.image(canvas_result.image_data)
