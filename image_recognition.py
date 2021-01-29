@@ -1,8 +1,6 @@
 import numpy as np
 from skimage import exposure
-import base64
 from PIL import Image, ImageOps, ImageChops
-from io import BytesIO
 
 
 def replace_transparent_background(image):
@@ -17,8 +15,7 @@ def replace_transparent_background(image):
     red, green, blue, alpha = image[:, :, 0], image[:, :, 1], image[:, :, 2], image[:, :, 3]
     mask = (alpha == alpha1)
     image[:, :, :4][mask] = [r2, g2, b2, alpha2]
-
-    print(image[:, :, :3])
+    print(image.astype(np.uint8))
 
     return Image.fromarray(image.astype(np.uint8))
 

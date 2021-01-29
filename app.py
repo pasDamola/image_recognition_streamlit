@@ -1,4 +1,3 @@
-import pandas as pd
 from PIL import Image
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
@@ -29,7 +28,7 @@ canvas_result = st_canvas(
 
 # Method to train model with necessary image data
 def train_model(data, target):
-    model = KNeighborsClassifier(n_neighbors=1)
+    model = KNeighborsClassifier(n_neighbors=3)
     model.fit(data, target)
     return model
 
