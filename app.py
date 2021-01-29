@@ -8,8 +8,8 @@ from image_recognition import process_image
 
 # Specify canvas parameters in application
 stroke_width = st.sidebar.slider("Stroke width: ", 1, 25, 3)
-# stroke_color = st.sidebar.color_picker("Stroke color hex: ")
-# bg_color = st.sidebar.color_picker("Background color hex: ", "#eee")
+stroke_color = st.sidebar.color_picker("Stroke color hex: ")
+bg_color = st.sidebar.color_picker("Background color hex: ", "#eee")
 drawing_mode = st.sidebar.selectbox('Drawing Tool', ['freedraw'])
 realtime_update = st.sidebar.checkbox("Update in realtime", True)
 
