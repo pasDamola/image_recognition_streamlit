@@ -2,6 +2,9 @@ import pandas as pd
 from PIL import Image
 import streamlit as st
 from streamlit_drawable_canvas import st_canvas
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.datasets import load_digits
 
 # Specify canvas parameters in application
 stroke_width = st.sidebar.slider("Stroke width: ", 1, 25, 3)
@@ -22,8 +25,22 @@ canvas_result = st_canvas(
     key="canvas",
 )
 
-st.button('Predict')
+# Train model with necessary image data
+def train_model(data, target):
+    model = KNeighborsClassifier(n_neighbors=3)
+    model.fit(data, target)
+    return model
+
+# Load MNIST digit dataset
+digits = load_digits()
+
+
+classifier = train_model(digits.data, digits.target)
+
+# Let the model predict the number drawn on the canvas
+if st.button('Predict'):
+    st.write('You predicted!!!')
 
 # Do something interesting with the image data and paths
-# if canvas_result.image_data is not None:
-#     st.image(canvas_result.image_data)
+if canvas_result.image_data is not None:
+    st.image(canvas_result.image_data)
